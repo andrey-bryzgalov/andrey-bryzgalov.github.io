@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WKWebView Debug Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            text-align: center;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #description {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="description">
+        <h1>WKWebView Debug Page</h1>
+        <p>This page is used to test and debug the behavior of WKWebView in an AD App environment.</p>
+        <p>The buttons below test various actions like window operations, displaying popups, and interacting with a PDF document.</p>
+    </div>
+    <button onclick="triggerClose()">Attempt to Close Window</button>
+    <button onclick="triggerOpen()">Open New Window</button>
+    <button onclick="showPopup()">Show Test Popup</button>
+    <button onclick="navigateToPDF()">Navigate to PDF</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+
+    <script>
+        function triggerClose() {
+            try {
+                // Attempt to open a blank page and close the current window
+                this.window.open('', '_self').close();
+                console.log('Close attempt executed');
+            } catch (e) {
+                console.error('Error while attempting to close the window:', e);
+            }
+        }
+
+        function triggerOpen() {
+            try {
+                // Opens a new window with a blank page
+                let newWindow = window.open('https://www.example.com', '_blank');
+                console.log('New window open attempt executed');
+                if (newWindow) {
+                    newWindow.focus();
+                } else {
+                    console.warn('New window could not be opened, possibly blocked by popup blocker');
+                }
+            } catch (e) {
+                console.error('Error while attempting to open a new window:', e);
+            }
+        }
+
+        function showPopup() {
+            // Display a test popup with a message
+            alert('This is a test popup.');
+        }
+
+        function navigateToPDF() {
+            // Navigate to a PDF document
+            window.location.href = 'sample.pdf';
+        }
+
+        function downloadPDF() {
+            // Trigger download of the PDF document
+            const link = document.createElement('a');
+            link.href = 'sample.pdf';
+            link.download = 'sample.pdf'; // Specify the download attribute
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
